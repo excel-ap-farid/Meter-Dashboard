@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NESCO Meter Dashboard",
+  title: "Meter Dashboard",
 };
 
 export default function RootLayout({

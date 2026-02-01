@@ -3,7 +3,7 @@ import { TUser } from "./types";
 import * as cheerio from "cheerio";
 
 export const sendMail = async (email: string, code: string) => {
-  console.log("email", email);
+
   const publicKey = process.env.MAILJET_PUBLIC_KEY;
   const privateKey = process.env.MAILJET_PRIVATE_KEY;
   const senderEmail = process.env.MAILJET_SENDER_EMAIL;
@@ -74,7 +74,7 @@ export const sendMailWithNotification = async (
   else return false;
 };
 
-export const fetchMeterBalance = async (
+export const fetchMeterBalanceNesco = async (
   customer_no: string,
 ): Promise<string | null> => {
   const getRes = await nescoHttpClient.get(

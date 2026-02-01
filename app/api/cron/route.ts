@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { fetchMeterBalance, sendMailWithNotification } from "@/services/utils";
+import { MeterTypes } from "@/services/types";
+import { fetchMeterBalanceNesco, sendMailWithNotification } from "@/services/utils";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -10,6 +11,7 @@ export async function GET(request: Request) {
         meterNo: true,
         name: true,
         threshold: true,
+        type: true,
         user: {
 
           select: {
@@ -23,11 +25,15 @@ export async function GET(request: Request) {
 
 
     for (const m of meters) {
-      const balance = await fetchMeterBalance(m.meterNo);
+      let balance;
+      if (m.type === MeterTypes.Nesco) {
+
+        balance = await fetchMeterBalanceNesco(m.meterNo);
+      }
       if (!balance) return;
       await prisma.meter.update({
         where: { id: m.id },
-        data: { balance: Number(balance), type: "Nesco" },
+        data: { balance: Number(balance) },
 
       });
       console.log("meter balance update");

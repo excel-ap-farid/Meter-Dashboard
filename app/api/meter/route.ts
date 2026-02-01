@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { TMeterData } from "@/services/types";
-import { fetchMeterBalance } from "@/services/utils";
+import { MeterTypes, TMeterData } from "@/services/types";
+
 import { NextResponse } from "next/server";
 import jsonwebtoken from "jsonwebtoken";
+import { fetchMeterBalanceNesco } from "@/services/utils";
 
 export async function POST(request: Request) {
   try {
@@ -32,7 +33,10 @@ export async function POST(request: Request) {
         message: "Meter already exists for the user",
       });
 
-    const balance = await fetchMeterBalance(body.meterNo);
+    let balance = null;
+    if (body.type === MeterTypes.Nesco) {
+      balance = await fetchMeterBalanceNesco(body.meterNo);
+    }
 
     if (balance === null)
       return NextResponse.json({

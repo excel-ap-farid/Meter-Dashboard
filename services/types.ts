@@ -11,8 +11,13 @@ export type TMeterData = {
   threshold: number;
   id: string;
   balance: number;
-  type: "Nesco"
+  type: MeterTypes
 };
+
+export enum MeterTypes {
+  Nesco = "Nesco",
+
+}
 
 export type TAddMeter = Pick<TMeterData, "name" | "threshold" | "meterNo">;
 export type SignUpPayload = {
