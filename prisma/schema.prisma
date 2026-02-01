@@ -23,14 +23,15 @@ model User {
 }
 
 model Meter {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   meterNo   String
   name      String
   balance   Float
   threshold Float
+  type      MeterType?
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
 
   @@unique([meterNo, userId])
 }
@@ -38,6 +39,10 @@ model Meter {
 enum SendingMethod {
   EMAIL
   SMS
+}
+
+enum MeterType {
+  Nesco
 }
 
 model OTP {

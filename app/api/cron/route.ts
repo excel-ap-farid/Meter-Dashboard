@@ -27,7 +27,8 @@ export async function GET(request: Request) {
       if (!balance) return;
       await prisma.meter.update({
         where: { id: m.id },
-        data: { balance: Number(balance) },
+        data: { balance: Number(balance), type: "Nesco" },
+
       });
       console.log("meter balance update");
       if (Number(balance) < m?.threshold) {
