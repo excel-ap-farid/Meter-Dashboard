@@ -37,32 +37,38 @@ function MeterList() {
   if (loading) return <Loading></Loading>;
 
   return (
-    <div className="grid grid-cols-1 md:gird-cols-2 lg:grid-cols-4 gap-10 py-10 w-11/12 mx-auto">
-      <div
-        onClick={() => router.push("/meter/add")}
-        className="border-blue-400 border-2 rounded-md h-48 bg-dark-400 flex items-center justify-center cursor-pointer"
-      >
-        <button className="text-white w-20 h-20 bg-blue-400 rounded-full text-4xl cursor-pointer">
-          +
-        </button>
-      </div>
+    <div className="w-11/12 mx-auto py-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Add new meter card */}
+        <div
+          onClick={() => router.push("/meter/add")}
+          className="cursor-pointer h-52 rounded-2xl border-2 border-dashed border-blue-400 flex items-center justify-center hover:bg-blue-50 dark:hover:bg-neutral-800 transition"
+        >
+          <div className="flex flex-col items-center gap-2 text-blue-500">
+            <div className="w-14 h-14 rounded-full border-2 border-blue-400 flex items-center justify-center text-3xl">
+              +
+            </div>
+            <span className="text-sm font-medium">Add Meter</span>
+          </div>
+        </div>
 
-      {meters?.length > 0 ? (
-        <>
-          {meters?.map((m: TMeterData) => (
+        {/* Meter cards */}
+        {meters?.length > 0 ? (
+          meters.map((m) => (
             <MeterCard
-              key={m?.id}
+              key={m.id}
               m={m}
               handleDelete={handleDelete}
-            ></MeterCard>
-          ))}
-        </>
-      ) : (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-2xl text-blue-500">
-          No meters data found.
-        </div>
-      )}
+            />
+          ))
+        ) : (
+          <div className="col-span-full text-center text-neutral-500 text-lg">
+            No meters data found.
+          </div>
+        )}
+      </div>
     </div>
+
   );
 }
 

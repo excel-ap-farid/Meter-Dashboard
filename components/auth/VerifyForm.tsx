@@ -98,46 +98,46 @@ function VerifyForm() {
   };
   if (loading) return <Loading></Loading>;
   return (
-    <div className="flex flex-col justify-center h-full w-11/12 md:w-3/5 lg:w-1/2 border-[#3B82F6] border-2 rounded-md py-8 mx-auto">
-      <h2
-        className={`text-xl text-foreground text-center font-light tracking-wide ${notoSerif.className}`}
-      >
-        You must verify your email before processing further
-      </h2>
-      <p className="pt-4 pb-8 text-center text-lg text-foreground">
-        Enter the 4 digit code you have received in your email!
-      </p>
-      <form
-        onSubmit={handleSubmit}
-        className="mx-auto w-full max-w-md space-y-5"
-      >
-        <div>
+    <div className="flex h-full w-full items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm p-8">
+        <div className="mb-6 text-center">
+          <h2 className={`text-lg font-medium ${notoSerif.className}`}>
+            You must verify your email before processing further
+          </h2>
+          <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+            Enter the 4 digit code you have received in your email!
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
           <input
             type="text"
             name="code"
             placeholder="Enter your code"
-            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
+            className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-center tracking-widest text-lg outline-none focus:border-blue-500"
           />
-        </div>
 
-        <button
-          disabled={verifyingCode}
-          type="submit"
-          className="cursor-pointer w-full h-12 bg-[#3B82F6] text-white rounded-md text-lg font-medium hover:bg-[#2563EB] transition"
-        >
-          {verifyingCode ? "Verifying..." : "Verify"}
-        </button>
-      </form>
-      <h2 className="text-center text-foreground text-base mt-6">
-        <button
-          type="button"
-          onClick={handleResend}
-          className="text-[#94A3B8] hover:underline cursor-pointer"
-        >
-          Resend code
-        </button>
-      </h2>
+          <button
+            disabled={verifyingCode}
+            type="submit"
+            className="cursor-pointer w-full h-11 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60"
+          >
+            {verifyingCode ? "Verifying..." : "Verify"}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center">
+          <button
+            type="button"
+            onClick={handleResend}
+            className="cursor-pointer text-sm text-blue-500 hover:underline"
+          >
+            Resend code
+          </button>
+        </div>
+      </div>
     </div>
+
   );
 }
 

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { postData } from "@/services/apis/auth";
 import { APIEndPoints, TAddMeter, TMeterData } from "@/services/types";
 import { getMeter, postMeter, updateMeter } from "@/services/apis/meter";
+import Loading from "../others/Loading";
 const notoSerif = Noto_Serif({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
@@ -16,13 +17,17 @@ function EditMeterForm() {
   const [meter, setMeter] = useState<TMeterData | null>(null);
   const router = useRouter();
   const params = useParams();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const run = async () => {
+
       if (params?.id) {
+        setLoading(true)
         const result = await getMeter(APIEndPoints.meter, params?.id as string);
 
         setMeter(result.data);
+        setLoading(false)
       }
     };
     run();
@@ -54,7 +59,7 @@ function EditMeterForm() {
 
     try {
       setUpdating(true);
-      const result = await updateMeter<Omit<TAddMeter, "meterNo">>(
+      const result = await updateMeter<Omit<TAddMeter, "meterNo" | "type">>(
         APIEndPoints.meter,
         payload,
       );
@@ -73,62 +78,82 @@ function EditMeterForm() {
       toast.error(error.message || "Internal Server error");
     }
   };
-
+  if (loading) return <Loading></Loading>
   return (
-    <div className="flex flex-col justify-center h-full w-11/12 md:w-3/5 lg:w-1/2 border-[#3B82F6] border-2 rounded-md px-2 py-8 mx-auto">
-      <h2
-        className={`text-5xl md:text-6xl text-foreground text-center font-light tracking-wide ${notoSerif.className}`}
-      >
-        Update meter info
-      </h2>
-      <p className="pt-4 pb-8 text-center text-lg text-foreground">
-        Update your meter information
-      </p>
-      <form
-        onSubmit={handleSubmit}
-        className="mx-auto w-full max-w-md space-y-5"
-      >
-        <div>
-          <label className="block text-foreground text-sm mb-2">Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter a name for your meter"
-            defaultValue={meter?.name}
-            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
-          />
-        </div>
-        <div>
-          <label className="block text-foreground text-sm mb-2">Meter No.</label>
-          <input
-            defaultValue={meter?.meterNo}
-            disabled
-            type="text"
-            name="meterNo"
-            placeholder="Enter your meter no."
-            className="w-full h-12 rounded-lg dark:bg-gray-400 bg-gray-300 border border-[#6B6B6B] px-4 outline-0 text-black cursor-not-allowed"
-          />
-        </div>
-        <div>
-          <label className="block text-foreground text-sm mb-2">Threshold</label>
-          <input
-            defaultValue={meter?.threshold}
-            type="number"
-            name="threshold"
-            placeholder="Enter minimum balance to get notified"
-            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
-          />
+    <div className="flex h-full w-full items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm p-8">
+        <div className="mb-8 text-center">
+          <h2 className={`text-3xl font-medium ${notoSerif.className}`}>
+            Update meter info
+          </h2>
+          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            Update your meter information
+          </p>
         </div>
 
-        <button
-          disabled={updating}
-          type="submit"
-          className="cursor-pointer w-full h-12 bg-[#3B82F6] text-white rounded-md text-lg font-medium hover:bg-[#2563EB] transition"
-        >
-          {updating ? "Updating..." : "Submit"}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              defaultValue={meter?.name}
+              placeholder="Enter a name for your meter"
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Meter No.
+            </label>
+            <input
+              type="text"
+              name="meterNo"
+              defaultValue={meter?.meterNo}
+              disabled
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-200 dark:bg-neutral-700 px-4 text-sm text-neutral-500 dark:text-neutral-400 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Meter Type
+            </label>
+            <input
+              type="text"
+              defaultValue={meter?.type}
+              disabled
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-200 dark:bg-neutral-700 px-4 text-sm text-neutral-500 dark:text-neutral-400 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Threshold
+            </label>
+            <input
+              type="number"
+              name="threshold"
+              defaultValue={meter?.threshold}
+              placeholder="Enter minimum balance to get notified"
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <button
+            disabled={updating}
+            type="submit"
+            className="cursor-pointer w-full h-11 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60"
+          >
+            {updating ? "Updating..." : "Submit"}
+          </button>
+        </form>
+      </div>
     </div>
+
   );
 }
 

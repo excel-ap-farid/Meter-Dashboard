@@ -60,70 +60,94 @@ function AddForm() {
   };
 
   return (
-    <div className="flex flex-col justify-center h-full w-11/12 md:w-3/5 lg:w-1/2 border-[#3B82F6] px-2 border-2 rounded-md py-8 mx-auto">
-      <h2
-        className={`text-5xl md:text-6xl text-foreground text-center font-light tracking-wide ${notoSerif.className}`}
-      >
-        Add a new meter
-      </h2>
-      <p className="pt-4 pb-8 text-center text-lg text-foreground">
-        Enter your meter information
-      </p>
-      <form
-        onSubmit={handleSubmit}
-        className="mx-auto w-full max-w-md space-y-5"
-      >
-        <div>
-          <label className="block text-foreground text-sm mb-2">Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter a name for your meter"
-            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
-          />
-        </div>
-        <div>
-          <label className="block text-foreground text-sm mb-2">Meter No.</label>
-          <input
-            type="number"
-            name="meterNo"
-            placeholder="Enter your meter no."
-            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
-          />
-        </div>
-        <div>
-          <label className="block text-foreground text-sm mb-2">Meter Type</label>
-          <select
-            name="type"
-            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
-            defaultValue={MeterTypes.Nesco}
-          >
-            {Object.values(MeterTypes).map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-foreground text-sm mb-2">Threshold</label>
-          <input
-            type="text"
-            name="threshold"
-            placeholder="Enter minimum balance to get notified"
-            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
-          />
+    <div className="flex h-full w-full items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm p-8">
+        <div className="mb-8 text-center">
+          <h2 className={`text-3xl font-medium ${notoSerif.className}`}>
+            Add a new meter
+          </h2>
+          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            Enter your meter information
+          </p>
         </div>
 
-        <button
-          disabled={adding}
-          type="submit"
-          className="cursor-pointer w-full h-12 bg-[#3B82F6] text-white rounded-md text-lg font-medium hover:bg-[#2563EB] transition"
-        >
-          {adding ? "Adding..." : "Submit"}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter a name for your meter"
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Meter No.
+            </label>
+            <input
+              type="number"
+              name="meterNo"
+              placeholder="Enter your meter no."
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Meter Type
+            </label>
+
+            <div className="relative">
+              <select
+                name="type"
+                defaultValue={MeterTypes.Nesco}
+                className="w-full h-11 appearance-none rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 pr-10 text-sm outline-none focus:border-blue-500"
+              >
+                {Object.values(MeterTypes).map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+
+              <svg
+                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M5.5 7.5L10 12l4.5-4.5" />
+              </svg>
+            </div>
+          </div>
+
+
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Threshold
+            </label>
+            <input
+              type="text"
+              name="threshold"
+              placeholder="Enter minimum balance to get notified"
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <button
+            disabled={adding}
+            type="submit"
+            className="cursor-pointer w-full h-11 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60"
+          >
+            {adding ? "Adding..." : "Submit"}
+          </button>
+        </form>
+      </div>
     </div>
+
   );
 }
 
