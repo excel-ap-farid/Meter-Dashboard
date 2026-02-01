@@ -11,6 +11,7 @@ export type TMeterData = {
   threshold: number;
   id: string;
   balance: number;
+  type: "Nesco"
 };
 
 export type TAddMeter = Pick<TMeterData, "name" | "threshold" | "meterNo">;

@@ -46,7 +46,7 @@ export async function POST(request: Request) {
         meterNo: body.meterNo,
         threshold: Number(body.threshold),
         balance: Number(balance) ?? 0,
-        type: "Nesco",
+        type: body.type,
         user: {
           connect: { id },
         },
