@@ -4,6 +4,13 @@ import { fetchMeterBalanceNesco, sendMailWithNotification } from "@/services/uti
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
+  const cronToken = request.headers.get("authorization");
+  if (cronToken !== process.env.CRON_SECRET)
+    return NextResponse.json({
+      status: 401,
+      message: "Unauthorized",
+    });
+
   try {
     const meters = await prisma.meter.findMany({
       select: {
