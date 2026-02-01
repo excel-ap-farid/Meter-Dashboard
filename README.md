@@ -47,7 +47,7 @@ Password: `test@faridmurshed.dev`
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/faridulhaque/Nesco-E-Meter-Dashboard.git
+   git clone https://github.com/excel-ap-farid/Meter-Dashboard.git
    cd Nesco-E-Meter-Dashboard
 
 
