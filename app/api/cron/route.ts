@@ -36,10 +36,8 @@ export async function GET(request: Request) {
         data: { balance: Number(balance) },
 
       });
-      console.log("meter balance update");
       if (Number(balance) < m?.threshold) {
         await sendMailWithNotification(m?.user?.email, m?.name, balance);
-        console.log("mail sent to", m?.user?.email);
       }
     }
   } catch (error) {

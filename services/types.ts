@@ -19,7 +19,7 @@ export enum MeterTypes {
 
 }
 
-export type TAddMeter = Pick<TMeterData, "name" | "threshold" | "meterNo">;
+export type TAddMeter = Pick<TMeterData, "name" | "threshold" | "meterNo" | "type">;
 export type SignUpPayload = {
   email: string;
   password: string;
@@ -35,6 +35,7 @@ export enum Methods {
 export enum APIEndPoints {
   register = "/api/auth/register",
   verify = "/api/auth/verify",
+  resetPassword = "/api/auth/reset-password",
   resend = "/api/auth/resend",
   login = "/api/auth/login",
 

@@ -13,7 +13,6 @@ function RequireUser({ children }: { children: React.ReactNode }) {
       const run = async () => {
         const data = await getUser();
 
-        console.log("data", data);
 
         if (data?.data) {
           if (data.data.isVerified) {

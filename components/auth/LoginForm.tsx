@@ -17,6 +17,7 @@ function LoginForm() {
   const [loggingIn, setLoggingIn] = useState(false);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -61,6 +62,22 @@ function LoginForm() {
     if (token) return router.push("/");
   }, []);
 
+  const handleResend = async () => {
+    if (!email) return toast.warn("Email is required");
+    try {
+      const result = await postData<{ email: string }>(APIEndPoints.resend, {
+        email,
+      });
+      if (result.status === 201) {
+        toast.success(result.message);
+        router.push(`/auth/verify?email=${email}`);
+      } else toast.error(result.message);
+    } catch (error) {
+      toast.error(`Failed to Resend`);
+    }
+
+  }
+
   return (
     <div className="flex flex-col justify-center h-full w-11/12 md:w-3/5 lg:w-1/2 border-[#3B82F6] border-2 rounded-md py-8 px-2">
       <h2
@@ -78,6 +95,7 @@ function LoginForm() {
         <div>
           <label className="block text-foreground text-sm mb-2">Email</label>
           <input
+            onChange={(e) => setEmail(e.target.value)}
             type="text"
             name="email"
             placeholder="Enter your email"
@@ -133,6 +151,16 @@ function LoginForm() {
                 />
               </svg>
             )}
+          </button>
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            onClick={handleResend}
+            type="button"
+            className="text-sm text-[#3B82F6] hover:underline cursor-pointer"
+          >
+            Forgot Password?
           </button>
         </div>
 

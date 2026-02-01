@@ -5,9 +5,11 @@ import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body: { email: string, code: string } = await request.json();
 
-    if (!body.email || !body.otp) {
+    console.log('body', body)
+
+    if (!body.email || !body.code) {
       return NextResponse.json({
         status: 400,
         message: "Email and OTP are required",
@@ -47,7 +49,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const isValid = await bcrypt.compare(String(body.otp), latestOtp.otp);
+    const isValid = await bcrypt.compare(String(body.code), latestOtp.otp);
 
     if (!isValid) {
       return NextResponse.json({

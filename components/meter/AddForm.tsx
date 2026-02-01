@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Noto_Serif } from "next/font/google";
 import { toast } from "react-toastify";
 import { postData } from "@/services/apis/auth";
-import { APIEndPoints, TAddMeter } from "@/services/types";
+import { APIEndPoints, MeterTypes, TAddMeter } from "@/services/types";
 import { postMeter } from "@/services/apis/meter";
 const notoSerif = Noto_Serif({
   subsets: ["latin"],
@@ -21,6 +21,7 @@ function AddForm() {
     const name = e.currentTarget.name.value as string;
     const meterNo = e.currentTarget.meterNo.value as string;
     const threshold = e.currentTarget.threshold.value;
+    const type = e.currentTarget.type.value as MeterTypes;
 
     if (name.length > 15)
       return toast.error("Name length must be less than 20");
@@ -32,6 +33,7 @@ function AddForm() {
       name,
       meterNo,
       threshold,
+      type
     };
 
     for (const key in payload) {
@@ -43,7 +45,6 @@ function AddForm() {
       setAdding(true);
 
       const result = await postMeter<TAddMeter>(APIEndPoints.meter, payload);
-      console.log("result", result);
       if (result?.status === 201) {
         toast.success(result?.message);
 
@@ -89,6 +90,20 @@ function AddForm() {
             placeholder="Enter your meter no."
             className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
           />
+        </div>
+        <div>
+          <label className="block text-foreground text-sm mb-2">Meter Type</label>
+          <select
+            name="type"
+            className="w-full h-12 rounded-lg bg-[#F5F7FA] border border-[#6B6B6B] px-4 outline-0 text-black"
+            defaultValue={MeterTypes.Nesco}
+          >
+            {Object.values(MeterTypes).map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="block text-foreground text-sm mb-2">Threshold</label>

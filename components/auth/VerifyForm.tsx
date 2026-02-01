@@ -17,6 +17,7 @@ function VerifyForm() {
   const [verifyingCode, setVerifyingCode] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -26,13 +27,29 @@ function VerifyForm() {
 
     try {
       setVerifyingCode(true);
-      const result = await postData(APIEndPoints.verify, { code });
-      if (result.status === 200) {
-        toast.success(result.message);
-        router.push("/");
-      } else {
-        toast.error(result.message);
+
+      if (searchParams.get("email")) {
+        const email = searchParams.get('email') as string
+        const result = await postData(APIEndPoints.resetPassword, { code, email });
+        if (result.status === 200) {
+          toast.success(result.message);
+          localStorage.setItem("p_r_token", result.token);
+          router.push("/auth/reset-password");
+        } else {
+          toast.error(result.message);
+        }
       }
+      else {
+        const result = await postData(APIEndPoints.verify, { code });
+        if (result.status === 200) {
+          toast.success(result.message);
+          router.push("/");
+        } else {
+          toast.error(result.message);
+        }
+      }
+
+
       setVerifyingCode(false);
     } catch (error) {
       setVerifyingCode(false);
@@ -57,7 +74,11 @@ function VerifyForm() {
         }
       };
 
-      run();
+      if (!searchParams.get("email")) {
+        run();
+      } else {
+        setLoading(false);
+      }
     } catch (error) {
       router.push("/auth/login");
     }
