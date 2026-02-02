@@ -102,10 +102,10 @@ function VerifyForm() {
       <div className="w-full max-w-md rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm p-8">
         <div className="mb-6 text-center">
           <h2 className={`text-lg font-medium ${notoSerif.className}`}>
-            You must verify your email before processing further
+            You must verify your email or phone number before processing further
           </h2>
           <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
-            Enter the 4 digit code you have received in your email!
+            Enter the 4 digit code you have received in your email or phone number!
           </p>
         </div>
 

@@ -105,18 +105,7 @@ function EditMeterForm() {
             />
           </div>
 
-          <div>
-            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
-              Meter No.
-            </label>
-            <input
-              type="text"
-              name="meterNo"
-              defaultValue={meter?.meterNo}
-              disabled
-              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-200 dark:bg-neutral-700 px-4 text-sm text-neutral-500 dark:text-neutral-400 cursor-not-allowed"
-            />
-          </div>
+
 
           <div>
             <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
@@ -125,6 +114,19 @@ function EditMeterForm() {
             <input
               type="text"
               defaultValue={meter?.type}
+              disabled
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-200 dark:bg-neutral-700 px-4 text-sm text-neutral-500 dark:text-neutral-400 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Meter No.
+            </label>
+            <input
+              type="text"
+              name="meterNo"
+              defaultValue={meter?.meterNo}
               disabled
               className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-200 dark:bg-neutral-700 px-4 text-sm text-neutral-500 dark:text-neutral-400 cursor-not-allowed"
             />

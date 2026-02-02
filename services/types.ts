@@ -3,7 +3,19 @@ export type TUser = {
   password: string;
   code: string;
   id: string;
+  primaryContact: ContactType;
+  phone: string;
 };
+
+export type TUserRegisterRequestBody = {
+  contactType: ContactType;
+  contact: string;
+  password: string;
+}
+export type TUserLoginRequestBody = {
+  contact: string;
+  password: string;
+}
 
 export type TMeterData = {
   name: string;
@@ -18,6 +30,12 @@ export enum MeterTypes {
   Nesco = "Nesco",
   Desco = "Desco",
 }
+
+export enum ContactType {
+  email = "email",
+  phone = "phone",
+}
+
 
 export type TAddMeter = Pick<TMeterData, "name" | "threshold" | "meterNo" | "type">;
 export type SignUpPayload = {

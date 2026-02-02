@@ -95,17 +95,7 @@ function AddForm() {
             />
           </div>
 
-          <div>
-            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
-              Meter No.
-            </label>
-            <input
-              type="number"
-              name="meterNo"
-              placeholder="Enter your meter no."
-              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
-            />
-          </div>
+
 
           <div>
             <label className="block text-sm text-neutral-600 dark:text-neutral-400">
@@ -140,7 +130,17 @@ function AddForm() {
             </p>
           )}
 
-
+          <div>
+            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+              Meter No.
+            </label>
+            <input
+              type="number"
+              name="meterNo"
+              placeholder="Enter your meter no."
+              className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
+            />
+          </div>
           <div>
             <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
               Threshold

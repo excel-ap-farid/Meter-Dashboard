@@ -1,7 +1,7 @@
 "use client";
 
 import { postData } from "@/services/apis/auth";
-import { APIEndPoints, SignUpPayload } from "@/services/types";
+import { APIEndPoints, TUserLoginRequestBody } from "@/services/types";
 import { Noto_Serif } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,18 +17,18 @@ function LoginForm() {
   const [loggingIn, setLoggingIn] = useState(false);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const email = e.currentTarget.email.value as string;
+    const contact = e.currentTarget.contact.value as string;
     const password = e.currentTarget.password.value as string;
 
     if (password.length < 8)
       return toast.warn("Password should be at least 8 characters");
 
-    const payload: SignUpPayload = {
-      email,
+    const payload: TUserLoginRequestBody = {
+      contact,
       password,
     };
 
@@ -39,8 +39,8 @@ function LoginForm() {
 
     try {
       setLoggingIn(true);
-      const result = await postData<SignUpPayload>(APIEndPoints.login, {
-        email,
+      const result = await postData<TUserLoginRequestBody>(APIEndPoints.login, {
+        contact,
         password,
       });
       if (result.status === 200 && result.token) {
@@ -63,14 +63,14 @@ function LoginForm() {
   }, []);
 
   const handleResend = async () => {
-    if (!email) return toast.warn("Email is required");
+    if (!contact) return toast.warn("Email or phone is required");
     try {
-      const result = await postData<{ email: string }>(APIEndPoints.resend, {
-        email,
+      const result = await postData<{ contact: string }>(APIEndPoints.resend, {
+        contact,
       });
       if (result.status === 201) {
         toast.success(result.message);
-        router.push(`/auth/verify?email=${email}`);
+        router.push(`/auth/verify?contact=${contact}`);
       } else toast.error(result.message);
     } catch (error) {
       toast.error(`Failed to Resend`);
@@ -93,13 +93,13 @@ function LoginForm() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
-              Email
+              Email or Phone
             </label>
             <input
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setContact(e.target.value)}
               type="text"
-              name="email"
-              placeholder="Enter your email"
+              name="contact"
+              placeholder="Enter your email or phone"
               className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
             />
           </div>

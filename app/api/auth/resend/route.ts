@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         await prisma.oTP.create({
           data: {
             otp: hashedOtp,
-            sendingMethod: "EMAIL",
+            contactType: "email",
             expiresAt: expiresAt,
             userId: found.id,
           },

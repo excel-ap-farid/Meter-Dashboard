@@ -1,7 +1,7 @@
 "use client";
 
 import { postData } from "@/services/apis/auth";
-import { APIEndPoints, SignUpPayload } from "@/services/types";
+import { APIEndPoints, ContactType, SignUpPayload, TUserRegisterRequestBody } from "@/services/types";
 import { Noto_Serif } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,21 +18,27 @@ function RegisterForm() {
   const [signingUp, setSigningUp] = useState(false);
   const [showPass1, setShowPass1] = useState(false);
   const [showPass2, setShowPass2] = useState(false);
+  const [contactType, setContactType] = useState<ContactType>(ContactType.email);
   const router = useRouter();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const email = e.currentTarget.email.value as string;
+    const contact = e.currentTarget.contact.value as string;
     const password = e.currentTarget.password.value as string;
     const CPassword = e.currentTarget.confirmPassword.value as string;
+
+    if (contactType === ContactType.phone && contact.length < 11) {
+      return toast.warn("Invalid phone number");
+    }
 
     if (password !== CPassword) return toast.warn("Both password must be same");
     if (password.length < 8)
       return toast.warn("Password should be at least 8 characters");
 
-    const payload: SignUpPayload = {
-      email,
+    const payload: TUserRegisterRequestBody = {
+      contact,
       password,
+      contactType
     };
 
     for (const key in payload) {
@@ -42,10 +48,7 @@ function RegisterForm() {
 
     try {
       setSigningUp(true);
-      const result = await postData<SignUpPayload>(APIEndPoints.register, {
-        email,
-        password,
-      });
+      const result = await postData<TUserRegisterRequestBody>(APIEndPoints.register, payload);
       if (result.status === 201 && result.token) {
         toast.success(result.message);
         localStorage.setItem("token", result.token);
@@ -77,17 +80,47 @@ function RegisterForm() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="flex mb-3 w-fit mx-auto">
+            <button
+              type="button"
+              onClick={() => setContactType(ContactType.email)}
+              className={`px-4 h-7 text-sm border cursor-pointer ${contactType === ContactType.email
+                ? "bg-blue-600 text-white border-blue-600"
+                : "border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400"
+                }`}
+            >
+              Email
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setContactType(ContactType.phone)}
+              className={`px-4 h-7 text-sm border cursor-pointer ${contactType === ContactType.phone
+                ? "bg-blue-600 text-white border-blue-600"
+                : "border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400"
+                }`}
+            >
+              Phone
+            </button>
+          </div>
+
           <div>
             <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
-              Email
+              {contactType === "email" ? "Email" : "Phone"}
             </label>
+
             <input
-              type="text"
-              name="email"
-              placeholder="Enter your email"
+              type={contactType === "email" ? "email" : "tel"}
+              name="contact"
+              placeholder={
+                contactType === "email"
+                  ? "Enter your email"
+                  : "Enter your phone number"
+              }
               className="w-full h-11 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-4 text-sm outline-none focus:border-blue-500"
             />
           </div>
+
 
           <div className="relative">
             <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
