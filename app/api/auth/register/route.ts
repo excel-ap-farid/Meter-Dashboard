@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { TUser } from "@/services/types";
-import { sendMail } from "@/services/utils";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { sendEmail } from "@/services/utils/mailUtils";
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +21,14 @@ export async function POST(request: Request) {
     }
     const code = Math.floor(1000 + Math.random() * 9000);
 
-    const ok = await sendMail(body?.email as string, String(code));
+    const ok = await sendEmail({
+      email: body?.email as string,
+      subject: "Your verification code",
+      title: "Your verification code",
+      message: ` <h3>Hello User,</h3>
+      <p>Your code is <b>${code}</b>.</p>
+      <p>This code will expire soon.</p>`,
+    });
 
     if (!ok) {
       return NextResponse.json({

@@ -16,7 +16,7 @@ export type TMeterData = {
 
 export enum MeterTypes {
   Nesco = "Nesco",
-
+  Desco = "Desco",
 }
 
 export type TAddMeter = Pick<TMeterData, "name" | "threshold" | "meterNo" | "type">;

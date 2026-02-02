@@ -43,6 +43,7 @@ enum SendingMethod {
 
 enum MeterType {
   Nesco
+  Desco
 }
 
 model OTP {

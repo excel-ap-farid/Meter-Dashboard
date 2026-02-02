@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { postData } from "@/services/apis/auth";
 import { APIEndPoints, MeterTypes, TAddMeter } from "@/services/types";
 import { postMeter } from "@/services/apis/meter";
+import { fetchMeterBalance } from "@/services/utils/meterUtils";
+import { type } from "os";
 const notoSerif = Noto_Serif({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
@@ -15,6 +17,7 @@ function AddForm() {
   const router = useRouter();
 
   const [adding, setAdding] = useState(false);
+  const [descoError, setDescoError] = useState(false)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -28,6 +31,11 @@ function AddForm() {
 
     if (Number(threshold) < 10)
       return toast.error("Threshold can't be less than 10");
+
+    if (type === MeterTypes.Desco) {
+      const balance = await fetchMeterBalance(type, meterNo)
+      if (!balance) return setDescoError(true)
+    }
 
     const payload = {
       name,
@@ -58,6 +66,9 @@ function AddForm() {
       toast.error(error.message || "Internal Server error");
     }
   };
+
+
+
 
   return (
     <div className="flex h-full w-full items-center justify-center px-4">
@@ -97,7 +108,7 @@ function AddForm() {
           </div>
 
           <div>
-            <label className="block text-sm mb-1 text-neutral-600 dark:text-neutral-400">
+            <label className="block text-sm text-neutral-600 dark:text-neutral-400">
               Meter Type
             </label>
 
@@ -123,6 +134,11 @@ function AddForm() {
               </svg>
             </div>
           </div>
+          {descoError && (
+            <p className="text-red-500 text-sm mt-1">
+              Desco is not providing balance information for this meter number.
+            </p>
+          )}
 
 
           <div>

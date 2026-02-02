@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { MeterTypes } from "@/services/types";
-import { fetchMeterBalanceNesco, sendMailWithNotification } from "@/services/utils";
+import { sendEmail } from "@/services/utils/mailUtils";
+import { fetchMeterBalance } from "@/services/utils/meterUtils";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -32,11 +33,7 @@ export async function GET(request: Request) {
 
 
     for (const m of meters) {
-      let balance;
-      if (m.type === MeterTypes.Nesco) {
-
-        balance = await fetchMeterBalanceNesco(m.meterNo);
-      }
+      const balance = await fetchMeterBalance(m.type as MeterTypes, m.meterNo);
       if (!balance) return;
       await prisma.meter.update({
         where: { id: m.id },
@@ -44,7 +41,13 @@ export async function GET(request: Request) {
 
       });
       if (Number(balance) < m?.threshold) {
-        await sendMailWithNotification(m?.user?.email, m?.name, balance);
+        await sendEmail({
+          email: m?.user?.email,
+          subject: "Your meter balance is low",
+          title: "Your meter balance is low",
+          message: `You are running out of balance! Your meter ${m?.name} balance is only ${balance} </b>.</p>
+                       <p>Please recharge soon</p>`,
+        });
       }
     }
   } catch (error) {
