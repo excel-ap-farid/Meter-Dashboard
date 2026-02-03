@@ -52,7 +52,7 @@ function RegisterForm() {
       if (result.status === 201 && result.token) {
         toast.success(result.message);
         localStorage.setItem("token", result.token);
-        router.push(`/auth/verify`);
+        router.push(`/auth/verify?history=register`);
       } else toast.error(result.message);
       setSigningUp(false);
     } catch (error) {

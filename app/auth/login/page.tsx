@@ -7,8 +7,8 @@ function page() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Main content */}
-      <div className="flex flex-1 items-center justify-center px-4">
-        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="flex flex-1 items-center justify-center">
+        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           {/* Text section */}
           <div className="space-y-6">
             <h1 className="text-3xl font-semibold leading-tight">

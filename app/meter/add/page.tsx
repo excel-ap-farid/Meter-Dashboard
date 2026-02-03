@@ -1,14 +1,14 @@
 import AddForm from "@/components/meter/AddForm";
-import Logout from "@/components/others/Logout";
-import React from "react";
+import Navbar from "@/components/others/Navbar";
+import RequireUser from "@/components/others/RequireUser";
 
 function page() {
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans dark:bg-black relative">
-      <div className="h-20"></div>
-      <Logout></Logout>
-
-      <AddForm></AddForm>
+    <div className="">
+      <Navbar></Navbar>
+      <RequireUser>
+        <AddForm></AddForm>
+      </RequireUser>
     </div>
   );
 }

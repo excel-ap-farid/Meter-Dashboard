@@ -27,7 +27,7 @@ export async function GET(request: Request) {
             id: true,
             email: true,
             phone: true,
-            contactType: true,
+            notifyTo: true,
           },
         },
       },
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
 
       });
       if (Number(balance) < m?.threshold) {
-        if (m?.user?.contactType === ContactType.email) {
+        if (m?.user?.notifyTo.includes(ContactType.email)) {
           await sendEmail({
             email: m?.user?.email as string,
             subject: "Your meter balance is low",
@@ -52,7 +52,7 @@ export async function GET(request: Request) {
             message: `You are running out of balance! Your meter ${m?.name} balance is only ${balance} </b>.</p>
                        <p>Please recharge soon</p>`,
           });
-        } else if (m?.user?.contactType === ContactType.phone) {
+        } else if (m?.user?.notifyTo.includes(ContactType.phone)) {
           // await sendSms({
           //   to: m?.user?.phone as string,
           //   msg: `You are running out of balance! Your meter ${m?.name} balance is only ${balance} </b>.</p>

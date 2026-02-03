@@ -72,7 +72,7 @@ function AddForm() {
 
   return (
     <div className="flex h-full w-full items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm p-8">
+      <div className="w-full max-w-md rounded-2xl border border-neutral-200  dark:border-neutral-800 bg-white mt-10 dark:bg-neutral-900 shadow-sm p-8">
         <div className="mb-8 text-center">
           <h2 className={`text-3xl font-medium ${notoSerif.className}`}>
             Add a new meter

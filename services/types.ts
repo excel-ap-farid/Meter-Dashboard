@@ -3,8 +3,10 @@ export type TUser = {
   password: string;
   code: string;
   id: string;
-  primaryContact: ContactType;
+  contactType: ContactType;
   phone: string;
+  name: string;
+  notifyTo: string[];
 };
 
 export type TUserRegisterRequestBody = {
@@ -58,4 +60,12 @@ export enum APIEndPoints {
   login = "/api/auth/login",
 
   meter = "/api/meter",
+  user = "/api/user",
+  user_notification = "/api/user/notification",
+}
+
+export type TUserResponse = {
+  data: TUser;
+  status: number;
+  message: string;
 }

@@ -62,7 +62,7 @@ function LoginForm() {
     if (token) return router.push("/");
   }, []);
 
-  const handleResend = async () => {
+  const handleForgotPassword = async () => {
     if (!contact) return toast.warn("Email or phone is required");
     try {
       const result = await postData<{ contact: string }>(APIEndPoints.resend, {
@@ -70,7 +70,7 @@ function LoginForm() {
       });
       if (result.status === 201) {
         toast.success(result.message);
-        router.push(`/auth/verify?contact=${contact}`);
+        router.push(`/auth/verify?history=forgot_password&contact=${contact}`);
       } else toast.error(result.message);
     } catch (error) {
       toast.error(`Failed to Resend`);
@@ -134,7 +134,7 @@ function LoginForm() {
 
           <div className="flex justify-end">
             <button
-              onClick={handleResend}
+              onClick={handleForgotPassword}
               type="button"
               className="cursor-pointer text-xs text-blue-500 hover:underline"
             >

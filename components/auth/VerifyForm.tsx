@@ -1,8 +1,8 @@
 "use client";
 
 import { postData } from "@/services/apis/auth";
-import { getUser } from "@/services/apis/user";
-import { APIEndPoints } from "@/services/types";
+import { addNewContact, getUser } from "@/services/apis/user";
+import { APIEndPoints, TUser } from "@/services/types";
 import { Noto_Serif } from "next/font/google";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -18,6 +18,8 @@ function VerifyForm() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const history = searchParams.get('history') as string
+  const contact = searchParams.get('contact') as string
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -28,9 +30,8 @@ function VerifyForm() {
     try {
       setVerifyingCode(true);
 
-      if (searchParams.get("email")) {
-        const email = searchParams.get('email') as string
-        const result = await postData(APIEndPoints.resetPassword, { code, email });
+      if (history === "forgot_password" && contact) {
+        const result = await postData(APIEndPoints.resetPassword, { code, contact });
         if (result.status === 200) {
           toast.success(result.message);
           localStorage.setItem("p_r_token", result.token);
@@ -39,7 +40,7 @@ function VerifyForm() {
           toast.error(result.message);
         }
       }
-      else {
+      else if (history === "register") {
         const result = await postData(APIEndPoints.verify, { code });
         if (result.status === 200) {
           toast.success(result.message);
@@ -47,6 +48,18 @@ function VerifyForm() {
         } else {
           toast.error(result.message);
         }
+      } else if (history === "new_contact") {
+        const result = await addNewContact();
+        if (result.status === 200) {
+          toast.success(result.message);
+          localStorage.removeItem("contact_temp_token");
+          router.push("/profile");
+        } else {
+          toast.error(result.message);
+        }
+      }
+      else {
+        toast.error("Broken Url. Please try again");
       }
 
 
@@ -74,7 +87,7 @@ function VerifyForm() {
         }
       };
 
-      if (!searchParams.get("email")) {
+      if (history === "register" || !history) {
         run();
       } else {
         setLoading(false);
@@ -85,9 +98,10 @@ function VerifyForm() {
   }, []);
 
   const handleResend = async () => {
-    const data = await getUser();
-    const result = await postData<{ email: string }>(APIEndPoints.resend, {
-      email: data.data.email as string,
+    const response = await getUser();
+    const user: TUser = response.data;
+    const result = await postData<{ contact: string }>(APIEndPoints.resend, {
+      contact: user?.contactType === "email" ? user.email : user.phone
     });
 
     if (result.status === 201) {
@@ -127,13 +141,15 @@ function VerifyForm() {
         </form>
 
         <div className="mt-6 text-center">
-          <button
-            type="button"
-            onClick={handleResend}
-            className="cursor-pointer text-sm text-blue-500 hover:underline"
-          >
-            Resend code
-          </button>
+          {
+            history === "register" ? <button
+              type="button"
+              onClick={handleResend}
+              className="cursor-pointer text-sm text-blue-500 hover:underline"
+            >
+              Resend code
+            </button> : <></>
+          }
         </div>
       </div>
     </div>

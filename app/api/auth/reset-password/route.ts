@@ -5,19 +5,21 @@ import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   try {
-    const body: { email: string, code: string } = await request.json();
+    const body: { contact: string, code: string } = await request.json();
 
-    console.log('body', body)
 
-    if (!body.email || !body.code) {
+
+    if (!body.contact || !body.code) {
       return NextResponse.json({
         status: 400,
         message: "Email and OTP are required",
       });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: body.email },
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [{ email: body.contact }, { phone: body.contact }],
+      },
     });
 
     if (!user) {

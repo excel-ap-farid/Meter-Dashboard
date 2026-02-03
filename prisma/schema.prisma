@@ -24,6 +24,8 @@ model User {
   contactType ContactType @default(email)
   isVerified  Boolean?
   password    String?
+  name        String?
+  notifyTo    String[]
   meters      Meter[]
   otps        OTP[]
   createdAt   DateTime    @default(now())

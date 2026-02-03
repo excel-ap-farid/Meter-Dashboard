@@ -1,14 +1,16 @@
 import EditMeterForm from "@/components/meter/EditMeterForm";
 import Logout from "@/components/others/Logout";
+import Navbar from "@/components/others/Navbar";
+import RequireUser from "@/components/others/RequireUser";
 import React from "react";
 
 function page() {
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans dark:bg-black relative">
-      <div className="h-20"></div>
-      <Logout></Logout>
-
-      <EditMeterForm></EditMeterForm>
+    <div>
+      <Navbar></Navbar>
+      <RequireUser>
+        <EditMeterForm></EditMeterForm>
+      </RequireUser>
     </div>
   );
 }

@@ -10,11 +10,13 @@ export async function POST(request: Request) {
   try {
     const body: TUserRegisterRequestBody = await request.json()
 
-    console.log("body", body)
 
     const find = await prisma.user.findFirst({
       where: {
-        [body.contactType]: body.contact
+        OR: [
+          { email: body.contact },
+          { phone: body.contact },
+        ],
       }
     })
 
@@ -56,8 +58,9 @@ export async function POST(request: Request) {
     const created = await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
         data: {
-          email: body.contactType === "email" ? body.contact : null,
-          phone: body.contactType === "phone" ? body.contact : null,
+          [body.contactType]: body.contact,
+          contactType: body.contactType,
+          notifyTo: [body.contactType],
           password: hashedPassword,
           isVerified: false,
         },

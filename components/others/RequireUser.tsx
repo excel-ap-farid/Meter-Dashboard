@@ -19,7 +19,7 @@ function RequireUser({ children }: { children: React.ReactNode }) {
             setLoading(false);
             return;
           }
-          router.push("/auth/verify");
+          router.push("/auth/verify?history=register");
           return;
         }
         localStorage.removeItem("token");
