@@ -14,7 +14,7 @@ export default function Profile() {
     const [missingContactType, setMissingContactType] = useState("")
     const [missingContactValue, setMissingContactValue] = useState("")
     const [user, setUser] = useState<TUser | null>(null)
-    const [name, setName] = useState("Not Added")
+    const [name, setName] = useState("")
     const [notifyTo, setNotifyTo] = useState<string[]>([])
 
     const handleUpdateName = async (payload: Partial<TUser>) => {
@@ -117,12 +117,12 @@ export default function Profile() {
 
                     {editingName ? (
                         <input
-                            value={name}
+                            defaultValue={user?.name || ""}
                             onChange={(e) => setName(e.target.value)}
                             className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
                         />
                     ) : (
-                        <p className="text-sm text-neutral-800">{name}</p>
+                        <p className="text-sm text-neutral-800">{user?.name || "Not Added"}</p>
                     )}
                 </div>
             </div>
