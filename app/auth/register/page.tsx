@@ -1,12 +1,14 @@
 import RegisterForm from "@/components/auth/RegisterForm";
 import Footer from "@/components/others/Footer";
+import NavbarOuter from "@/components/others/NavbarOuter";
 import React from "react";
 
 function page() {
   return (
     <div className="min-h-screen flex flex-col">
+      <NavbarOuter />
       {/* Main content */}
-      <div className="flex flex-1 items-center justify-center px-4">
+      <div className="flex flex-1 items-center justify-center px-4 mt-10">
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           {/* Text section */}
           <div className="space-y-6">

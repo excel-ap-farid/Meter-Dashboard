@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Meter Dashboard",
+  title: "Meter Watch",
 };
 
 export default function RootLayout({
