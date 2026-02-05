@@ -11,7 +11,7 @@ function page() {
 
             {/* Main content */}
             <div className="flex flex-1 items-center justify-center px-4 mt-10">
-                <div className="w-full max-w-3xl space-y-8">
+                <div className="w-full lg:max-w-6xl space-y-8">
 
 
                     <div className="space-y-8">
@@ -33,7 +33,7 @@ function page() {
                         </div>
 
                         {/* Content grid */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div>
                                 <h2 className="text-2xl font-semibold mb-2">
                                     Information We Collect
