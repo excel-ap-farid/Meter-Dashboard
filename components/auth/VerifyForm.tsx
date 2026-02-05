@@ -15,7 +15,7 @@ const notoSerif = Noto_Serif({
 
 function VerifyForm() {
   const [verifyingCode, setVerifyingCode] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams();
   const history = searchParams.get('history') as string
@@ -69,33 +69,33 @@ function VerifyForm() {
     }
   };
 
-  // useEffect(() => {
-  //   try {
-  //     const run = async () => {
-  //       const data = await getUser();
+  useEffect(() => {
+    try {
+      const run = async () => {
+        const data = await getUser();
 
-  //       if (data?.data) {
-  //         if (data.data.isVerified) {
-  //           router.push("/");
-  //           return;
-  //         } else {
-  //           setLoading(false);
-  //         }
-  //       } else {
-  //         localStorage.removeItem("token");
-  //         router.push("/auth/login");
-  //       }
-  //     };
+        if (data?.data) {
+          if (data.data.isVerified) {
+            router.push("/");
+            return;
+          } else {
+            setLoading(false);
+          }
+        } else {
+          localStorage.removeItem("token");
+          router.push("/auth/login");
+        }
+      };
 
-  //     if (history === "register" || !history) {
-  //       run();
-  //     } else {
-  //       setLoading(false);
-  //     }
-  //   } catch (error) {
-  //     router.push("/auth/login");
-  //   }
-  // }, []);
+      if (history === "register" || !history) {
+        run();
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      router.push("/auth/login");
+    }
+  }, []);
 
   const handleResend = async () => {
     const response = await getUser();
